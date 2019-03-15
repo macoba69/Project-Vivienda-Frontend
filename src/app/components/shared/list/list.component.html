@@ -1,0 +1,96 @@
+<ol class="breadcrumb ng-scope">
+  <li><i class="fa fa-users"></i></li>
+  <!-- <li>Convenios</li>
+    <li><span data-ng-show="convenio.id_convenio==0">Nuevo</span>
+      <span data-ng-show="convenio.id_convenio>0" class="ng-binding ng-hide">Convenio N°</span>
+    </li> -->
+</ol>
+
+<div class="vista-principal">
+    <div class="col-xs-6">
+      <h3>Beneficiarios</h3>
+    </div>
+  </div>
+
+<div class="search-div">
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilter()">
+    <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<br><br>
+<mat-divider></mat-divider>
+<br>
+
+<div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+    Cargando Lista.....
+  </div>
+</div>
+
+<div class="example-table-container">
+  
+  <mat-table [dataSource]="listData" class="example-table" matSort matSortDirection="desc">
+
+    <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- R.U.T. Column -->
+    <ng-container matColumnDef="rut">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> R.U.T. </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-center"> 
+       <a [routerLink]="['update', trabajadores._id]" (routerLink)="updateTrabajador(trabajadores._id)" (click)="updateTrabajador(trabajadores._id)"> {{trabajadores.rut}} - {{trabajadores.dv}} </a>  
+      </mat-cell>
+    </ng-container>
+
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="nombres">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-left"> {{trabajadores.nombres | uppercase}} </mat-cell>
+    </ng-container>
+
+    <!-- Ap.Paterno Column -->
+    <ng-container matColumnDef="apellidoPaterno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Ap.Paterno </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-left"> {{trabajadores.apellidoPaterno}} </mat-cell>
+    </ng-container>
+
+
+    <!-- Ap.Materno Column -->
+    <ng-container matColumnDef="apellidoMaterno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Ap.Materno </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-left"> {{trabajadores.apellidoMaterno}} </mat-cell>
+    </ng-container>
+
+    <!-- Empresa Column -->
+    <ng-container matColumnDef="empresaLaboralId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Empresa </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-center">{{trabajadores.empresaLaboralId[0]['razonSocial']}}</mat-cell>
+    </ng-container> 
+
+    <!-- Ingreso Column -->
+    <ng-container matColumnDef="fechaNacimiento">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Ingreso </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-left"> {{trabajadores.fechaNacimiento | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Estado </mat-header-cell>
+      <mat-cell *matCellDef="let trabajadores" class="text-center">
+        <button mat-raised-button routerLink=".">{{trabajadores.estado}}</button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 100, 200, 300]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+</div>

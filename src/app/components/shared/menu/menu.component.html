@@ -1,0 +1,26 @@
+
+<mat-toolbar class="card-header">
+    <button mat-button routerLink="/list"><span>A PASOS</span></button>
+  <button mat-button>Inicio</button>
+ 
+  <button mat-button [matMenuTriggerFor]="convenios">Convenios</button>
+  <mat-menu #convenios="matMenu">
+    <button mat-menu-item>Nuevo</button>
+    <button mat-menu-item>Listado</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="convenios">Beneficiarios</button>
+
+  <mat-menu #convenios="matMenu">
+      <button mat-menu-item routerLink="/create">Nuevo</button>
+      <button mat-menu-item routerLink="/list">Listado</button>
+   </mat-menu>
+
+      <button mat-button routerLink="/informe">Informes</button>
+
+      <button mat-button [matMenuTriggerFor]="login">Usuario</button>
+      <mat-menu #login="matMenu">
+        <button mat-menu-item routerLink="">Acerca de...</button>
+        <button mat-menu-item routerLink="/login">Salir</button>
+    </mat-menu>
+
+</mat-toolbar>

@@ -1,0 +1,36 @@
+<div class="login-box">
+
+    <form name="form" ng-submit="login()" role="form" class="form-signin">
+
+        <div class="form-group text-center">
+            <img src="../../../../assets/img/logo-apasos.png">
+        </div>
+
+        <div fxFlex fxlayout="row" fxlayout.lt-md="column">
+            <div fxFlexFill>
+                <mat-form-field class="w-100">
+                    <input matInput placeholder="Usuario">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+            <div fxFlexFill>
+                <mat-form-field class="w-100">
+                    <input matInput type="password" placeholder="Password">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+            <div fxFlexFill>
+                <button mat-raised-button color="primary" class="w-100" routerLink="/list">INGRESAR</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="footer-login">
+        <div style="height:290px"></div>
+    </div>
+
+</div>

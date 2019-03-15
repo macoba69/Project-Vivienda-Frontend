@@ -1,0 +1,923 @@
+<ol class="breadcrumb ng-scope">
+  <li><i class="fa fa-briefcase"></i></li>
+  <!-- <li>Convenios</li>
+  <li><span data-ng-show="convenio.id_convenio==0">Nuevo</span>
+    <span data-ng-show="convenio.id_convenio>0" class="ng-binding ng-hide">Convenio N°</span>
+  </li> -->
+</ol>
+
+<div class="convenio-main">
+  <form [formGroup]="createForm" (ngSubmit)="onFormSubmit(createForm.value)">
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>DATOS PERSONALES</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-18 margin-right-10">
+          <input matTooltip="R.U.T." matInput placeholder="R.U.T. *" formControlName="rut">
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-10">
+          <input matTooltip="Nombres" matInput placeholder="Nombres *" formControlName="nombres">
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-10">
+          <input matTooltip="Ap. Paterno" matInput placeholder="Ap. Paterno *" formControlName="apellidoPaterno">
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-10">
+          <input matTooltip="Ap. Materno" matInput placeholder="Ap. Materno *" formControlName="apellidoMaterno">
+        </mat-form-field>
+
+        <mat-form-field  class="width-18 margin-right-10">
+            <mat-select matTooltip="Estado" placeholder="Estado *" formControlName="estado" [(value)]="estado">
+              <mat-option *ngFor="let estado of estados" [value]="estado.value">
+                {{estado.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+      </mat-card-content>
+
+      <mat-card-actions class="card-footer">
+
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>DATOS DE CONTACTO</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Dirección" matInput placeholder="Dirección *" formControlName="direccion">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Piso/Depto/Oficina" matInput placeholder="Piso/Depto/Oficina *" formControlName="piso">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <mat-select matTooltip="Región" placeholder="Región *" formControlName="region">
+            <mat-option *ngFor="let region of regiones" (click)="getComunas(region.codigo)" [value]="region">
+              {{region.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <mat-select matTooltip="Comuna" placeholder="Comuna *" formControlName="comuna">
+            <mat-option *ngFor="let comuna of comunas" [value]="comuna">
+              {{comuna.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Teléfono Móvil" matInput placeholder="Teléfono Móvil *" formControlName="telefonoMovil">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Teléfono Fijo" matInput placeholder="Teléfono Fijo *" formControlName="telefonoFijo">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Teléfono Otro" matInput placeholder="Teléfono Otro *" formControlName="telefonoOtro">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="E-Mail" matInput placeholder="E-Mail *" formControlName="email">
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>DATOS LABORALES</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-30 margin-right-15">
+          <input matTooltip="R.U.T. Convenio" matInput placeholder="R.U.T. Convenio *"
+            formControlName="empresaConvenioId">
+          {{empresaConvenioId}}
+        </mat-form-field>
+
+        <mat-form-field class="width-30 margin-right-15">
+          <input matTooltip="Razón Social Convenio" matInput placeholder="Razón Social Convenio *"
+            formControlName="razonSocialConvenio">
+        </mat-form-field>
+
+        <mat-form-field class="width-30 margin-right-15">
+          <input matTooltip="Servicio Social" matInput placeholder="Servicio Social *" formControlName="servicioSocial">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="R.U.T." matInput placeholder="R.U.T. *" formControlName="rutLaboral">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Razon Social" matInput placeholder="Razon Social *" formControlName="empresaLaboralId">
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <mat-select matTooltip="Anexo" placeholder="Anexo *" formControlName="anexoId" [(ngModel)]="selectedAnexo"
+            name="selectanexo">
+            <mat-option *ngFor="let selectanexo of anexos" [value]="selectanexo.value">
+              {{selectanexo.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-15">
+          <input matTooltip="Fecha" formControlName="fechaLaborales" matInput [matDatepicker]="picker"
+            placeholder="Inicio *">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>PROFESIONALES DE VIVIENDA ASOCIADAS</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+
+        <mat-form-field class="width-48 margin-right-20">
+          <mat-select matTooltip="Asistente Social Area Vivienda" placeholder="Asistente Social Area Vivienda *"
+            formControlName="usuario">
+            <mat-option *ngFor="let usuario of usuarios" [value]="usuario">
+              {{usuario.nombres}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-48 margin-right-20">
+          <mat-select matTooltip="Profesional BackOffice" placeholder="Profesional BackOffice *"
+            formControlName="backoffice">
+            <mat-option *ngFor="let usuario of usuarios" [value]="usuario">
+              {{usuario.nombres}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>DATOS DE DIAGNOSTICO</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-22 margin-right-10">
+          <mat-select matTooltip="Tramo Registro Social De Hogares" placeholder="R.S.H. *" [(ngModel)]="selectedRhs"
+            name="rhs" formControlName="rsh">
+            <mat-option *ngFor="let rhs of registros" [value]="rhs.value">
+              {{rhs.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-10">
+          <mat-select matTooltip="Comuna FPS o Registro Social De Hogares" placeholder="Comuna (FPS o RSH) *"
+            formControlName="comunaRsh" #comunaRsh>
+            <mat-option *ngFor="let comunaRsh of comunarshes" [value]="comunaRsh.comunaRsh">{{comunaRsh.comunaRsh}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-10">
+          <mat-select matTooltip="Tiene Subsidios Habitacional" placeholder="Subsidio Actual *"
+            [(ngModel)]="selectedActual" name="subsidioactual" formControlName="subsidioActual">
+            <mat-option *ngFor="let subsidioactual of subsidiosActual" [value]="subsidioactual.value">
+              {{subsidioactual.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-22 margin-right-10">
+          <mat-select matTooltip="Postula a Subsidios Habitacional" placeholder="Subsidio al que Postula *"
+            [(ngModel)]="selectedPostula" name="subsidiopostular" formControlName="subsidiopostular">
+            <mat-option *ngFor="let subsidiopostular of subsidiosPostular" [value]="subsidiopostular.value">
+              {{subsidiopostular.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-20">
+          <input matTooltip="Informe Comercial" matInput placeholder="DICOM *" formControlName="dicom">
+        </mat-form-field>
+
+        <mat-form-field class="width-13 margin-right-20">
+          <mat-select matTooltip="Beneficiario A.T.C." placeholder="A.T.C. *" [(ngModel)]="selectedAtc" name="atc"
+            formControlName="atc">
+            <mat-option *ngFor="let atc of beneficiarioAtc" [value]="atc.value">
+              {{atc.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-13 margin-right-20">
+          <mat-select matTooltip="Beneficiario con Discapacidad" placeholder="Discapacidad *"
+            [(ngModel)]="selectedDiscapacidad" name="discapacidad" formControlName="discapacidad">
+            <mat-option *ngFor="let discapacidad of discapacidades" [value]="discapacidad.value">
+              {{discapacidad.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-13 margin-right-20">
+          <mat-select matTooltip="Estado Civil" placeholder="Estado Civil *" [(ngModel)]="selectedCivil"
+            name="estadocivil" formControlName="estadocivil">
+            <mat-option *ngFor="let estadocivil of estadosCiviles" [value]="estadocivil.value">
+              {{estadocivil.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-13 margin-right-20">
+          <input matTooltip="Renta Imponible del Trabajador" matInput placeholder="Renta ($) *" formControlName="renta">
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-20">
+          <mat-select matTooltip="Tipo Contrato del Trabajador" placeholder="Tipo Contrato *"
+            [(ngModel)]="selectedContrato" name="tipocontrato" formControlName="tipocontrato">
+            <mat-option *ngFor="let tipocontrato of tiposContratos" [value]="tipocontrato.value">
+              {{tipocontrato.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>DATOS DE AHORRO</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-50 margin-right-15">
+          <mat-select matTooltip="Entidad de Ahorro" placeholder="Entidad de Ahorro *" formControlName="banco">
+            <mat-option *ngFor="let datosahorros of datosAhorro" [value]="datosahorros">
+              {{datosahorros.banco}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="width-18 margin-right-20">
+          <input matTooltip="Numero De Cuenta De Ahorro" matInput placeholder="N° Cuenta Ahorro *"
+            formControlName="numeroCuenta">
+        </mat-form-field>
+
+
+        <mat-form-field class="width-18 margin-right-20">
+          <input matTooltip="Ahorro Fines Habitacionales" matInput placeholder="Ahorro ($) *" formControlName="monto">
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+        <mat-card-header class="card-header">
+          <mat-card-title>FECHAS NACIMIENTO GRUPO FAMILIAR</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-contenido">
+      
+        <!-- <form [formGroup]="form"> -->
+          
+          <button matTooltip="Agregar Familia" mat-raised-button (click)="addCreds()" color="primary" matBadgePosition="before" matBadgeColor="accent">
+            <mat-icon>add_circle</mat-icon> FAMILIA
+          </button>
+          <br>
+          <br>
+      
+          <!-- <div formArrayName="credentials" *ngFor="let creds of form.controls.credentials?.value; let i = index">
+            
+            <mat-form-field [formGroupName]="i">
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+      
+          </div> -->
+      
+        <!-- </form> -->
+      
+        </mat-card-content>
+        <mat-card-actions class="card-footer">
+        </mat-card-actions>
+      </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>ETAPAS DEL PROCESO</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+     
+        <table class="hoverTable">
+          <thead>
+            <tr>
+              <th>Etapa</th>
+              <th>Estado</th>
+              <th>Inicio</th>
+              <th>Final</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td class="width-30 margin-right-20">Beneficiario Bono Arriendo</td>
+
+              <td class="width-30 margin-right-20">
+                <mat-form-field>
+                    <mat-select matTooltip="Estado Beneficiario Bono Arriendo" placeholder="Pendiente *" formControlName="estadoBono" [(value)]="estadoBono">
+                        <mat-option *ngFor="let estadoBono of estadosBono" [value]="estadoBono.value">
+                          {{estadoBono.value}}
+                        </mat-option>
+                      </mat-select>
+                </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker1">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+              </td>
+              
+              <td class="width-30 margin-right-20"> 
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker2">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+            </td>
+            
+          </tr>
+
+            <tr>
+              <td class="width-30 margin-right-20"> Ahorro </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Ahorro" placeholder="Pendiente *" formControlName="estadoAhorro" [(value)]="estadoAhorro">
+                          <mat-option *ngFor="let estadoAhorro of estadosAhorro" [value]="estadoAhorro.value">
+                            {{estadoAhorro.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker3">
+                      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                      <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker4">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+
+            <tr>
+              <td class="width-30 margin-right-20">Postulacion</td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Postulacion" placeholder="Pendiente *" formControlName="estadoPostulacion" [(value)]="estadoPostulacion">
+                          <mat-option *ngFor="let estadoPostulacion of estadosPostulacion" [value]="estadoPostulacion.value">
+                            {{estadoPostulacion.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker5">
+                      <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                      <mat-datepicker #picker5></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker6">
+                      <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                      <mat-datepicker #picker6></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="width-30 margin-right-20">Obtencion Subsidio</td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Subsidio" placeholder="Pendiente *" formControlName="estadoSubsidio" [(value)]="estadoSubsidio">
+                          <mat-option *ngFor="let estadoSubsidio of estadosSubsidio" [value]="estadoSubsidio.value">
+                            {{estadoSubsidio.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker7">
+                      <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+                      <mat-datepicker #picker7></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker8">
+                      <mat-datepicker-toggle matSuffix [for]="picker8"></mat-datepicker-toggle>
+                      <mat-datepicker #picker8></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="width-30 margin-right-20">Busqueda Vivienda</td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Busqueda Vivienda" placeholder="Pendiente *" formControlName="estadoVivienda" [(value)]="estadoVivienda">
+                          <mat-option *ngFor="let estadoVivienda of estadosVivienda" [value]="estadoVivienda.value">
+                            {{estadoVivienda.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker9">
+                      <mat-datepicker-toggle matSuffix [for]="picker9"></mat-datepicker-toggle>
+                      <mat-datepicker #picker9></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker10">
+                      <mat-datepicker-toggle matSuffix [for]="picker10"></mat-datepicker-toggle>
+                      <mat-datepicker #picker10></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="width-30 margin-right-20">Credito</td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Credito" placeholder="Pendiente *" formControlName="estadoCredito" [(value)]="estadoCredito">
+                          <mat-option *ngFor="let estadoCredito of estadosCredito" [value]="estadoCredito.value">
+                            {{estadoCredito.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker11">
+                      <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                      <mat-datepicker #picker11></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker12">
+                      <mat-datepicker-toggle matSuffix [for]="picker12"></mat-datepicker-toggle>
+                      <mat-datepicker #picker12></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="width-30 margin-right-20">Escrituracion</td>
+
+              <td class="width-30 margin-right-20"> 
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Escrituracion" placeholder="Pendiente *" formControlName="estadoEscrituracion" [(value)]="estadoEscrituracion">
+                          <mat-option *ngFor="let estadoEscrituracion of estadosEscrituracion" [value]="estadoEscrituracion.value">
+                            {{estadoEscrituracion.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker13">
+                      <mat-datepicker-toggle matSuffix [for]="picker13"></mat-datepicker-toggle>
+                      <mat-datepicker #picker13></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker14">
+                      <mat-datepicker-toggle matSuffix [for]="picker14"></mat-datepicker-toggle>
+                      <mat-datepicker #picker14></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+            <tr>
+              <td class="width-30 margin-right-20">Propietario</td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <mat-select matTooltip="Estado Propietario" placeholder="Pendiente *" formControlName="estadoPropietario" [(value)]="estadoPropietario">
+                          <mat-option *ngFor="let estadoPropietario of estadosPropietario" [value]="estadoPropietario.value">
+                            {{estadoPropietario.value}}
+                          </mat-option>
+                        </mat-select>
+                  </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker15">
+                      <mat-datepicker-toggle matSuffix [for]="picker15"></mat-datepicker-toggle>
+                      <mat-datepicker #picker15></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+              <td class="width-30 margin-right-20">
+                  <mat-form-field>
+                      <input matTooltip="Fecha Del Proceso" matInput [matDatepicker]="picker16">
+                      <mat-datepicker-toggle matSuffix [for]="picker16"></mat-datepicker-toggle>
+                      <mat-datepicker #picker16></mat-datepicker>
+                    </mat-form-field>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>SERVICIOS</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                1. Entrevista en Profundidad
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            
+            <table class="table table-bordered" style="background: white !important; color: black !important">
+            
+              <thead>
+
+                <tr class="bg-primary">
+                  <th class="col-xs-1">Fecha</th>
+                  <th class="col-xs-3">Profesional</th>
+                  <th class="col-xs-3">Tema</th>
+                  <th class="col-xs-3">Gestion</th>
+                  <th class="col-xs-1">Lugar</th>
+                  <th class="col-xs-1">Estado</th>
+                </tr>
+
+              </thead>
+            
+              <tbody>
+                <tr>
+                  <td class="text-right ng-binding">
+                      <mat-form-field>
+                          <input matInput [matDatepicker]="picker18" placeholder="Fecha">
+                          <mat-datepicker-toggle matSuffix [for]="picker18"></mat-datepicker-toggle>
+                          <mat-datepicker #picker18></mat-datepicker>
+                        </mat-form-field>
+                  </td>
+                  <td class="ng-binding">
+                      <mat-form-field>
+                          <input matInput placeholder="Profesional">
+                        </mat-form-field>
+                  </td>
+                  <td class="ng-binding">
+                      <mat-form-field>
+                          <input matInput placeholder="Tema">
+                        </mat-form-field>
+                  </td>
+                  <td class="ng-binding">
+                      <mat-form-field>
+                          <input matInput placeholder="Gestion">
+                        </mat-form-field>
+                  </td>
+                  <td class="ng-binding">
+                      <mat-form-field>
+                          <input matInput placeholder="Lugar">
+                        </mat-form-field>
+                  </td>
+
+                  <td data-ng-class="{'bg-danger':(atencion.atencion_id_estado == 1),
+                           'bg-warning':(atencion.atencion_id_estado == 2),
+                           'bg-success':(atencion.atencion_id_estado == 3),
+                           'bg-default':(atencion.atencion_id_estado == 0)}"
+                            class="ng-binding">
+                  </td>
+
+                </tr>
+
+              </tbody>
+              <thead>
+                <tr class="bg-primary">
+                  <th colspan="6">Observacion</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td colspan="6" class="ng-binding">
+
+                      <mat-form-field>
+                          <textarea matInput placeholder="Observacion"></textarea>
+                        </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            
+              <!-- <thead data-ng-show="(atencion.atencion_id_estado == 1)" class="ng-hide">
+                <tr class="bg-danger">
+                  <th colspan="6">Motivos Rechazo</th>
+                </tr>
+              </thead> -->
+
+              <tbody data-ng-show="(atencion.atencion_id_estado == 1)" class="ng-hide">
+                <tr>
+                  <td colspan="6" class="ng-binding"></td>
+                </tr>
+              </tbody>
+            
+              <tfoot>
+                <tr>
+                  <td colspan="6">
+                    <div class="dropdown pull-right">
+                      <button class="btn btn-success btn-sm" type="button" data-toggle="dropdown">Acción</button>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-header">Clasificar</li>
+                        
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Entrevista en Profundidad
+                          </a>
+                        </li>
+                        
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Charla Ahorro
+                          </a>
+                        </li>
+
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Charla Postulacion
+                          </a>
+                        </li>
+
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Charla Credito
+                          </a>
+                        </li>
+
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Seguimiento
+                          </a>
+                        </li>
+
+                        <li data-ng-repeat="s in servicios" class="ng-scope"><a href="" id="botonMoverAtencion"
+                            data-ng-click="clickBoton({id_atencion: $parent.$index, desde: $parent.$parent.$index, hasta: $index})"
+                            class="ng-binding">
+                            <i class="fa fa-exchange text-success"></i>
+                            Entrega Subsidio C.Ch.C.
+                          </a>
+                        </li>
+            
+                        <li role="separator" class="divider"></li>
+                        
+                        <li class="dropdown-header">Gestionar</li>
+                        
+                        <li>
+                          <a href="" id="botonRechazarAtencion"
+                            data-ng-click="clickBoton({id_atencion: $index, desde: $parent.$index})">
+                            <i class="fa fa-thumbs-o-down text-danger"></i> Rechazar
+                          </a>
+                        </li>
+                        
+                        <li class="text-danger">
+                          <a href="" id="botonIgnorarAtencion"
+                            data-ng-click="clickBoton({id_atencion: $index, desde: $parent.$index})">
+                            <i class="fa fa-eye-slash text-warning"></i> Ignorar
+                          </a>
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </td>
+                </tr>
+              </tfoot>
+
+            </table>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                2. Charla Ahorro
+              </mat-panel-title>
+              <mat-panel-description>
+
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                3. Charla Postulacion
+              </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                4. Charla Credito
+              </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                5. Seguimiento
+              </mat-panel-title>
+              <mat-panel-description>
+
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                6. Entrega Subsidio C.Ch.C.
+              </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon matTooltip="Monstrar Atenciones Asociadas">add_box</mat-icon>
+                ATENCIONES SIN CLASIFICAR
+              </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+
+            </mat-expansion-panel-header>
+
+          </mat-expansion-panel>
+
+        </mat-accordion> 
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card class="card">
+      <mat-card-header class="card-header">
+        <mat-card-title>ORDEN DE ATENCION</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="card-contenido">
+
+        <mat-form-field class="width-30 margin-right-15">
+          <input matTooltip="Fecha Que Realizo La Atención" formControlName="fechaAtencion" matInput
+            [matDatepicker]="picker17" placeholder="Fecha *">
+          <mat-datepicker-toggle matSuffix [for]="picker17"></mat-datepicker-toggle>
+          <mat-datepicker #picker17></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field class="width-30 margin-right-15">
+          <mat-select matTooltip="Obra Para Orden De Atención" placeholder="Obra *" [(ngModel)]="selectedValue"
+            name="selectcontrato" formControlName="banco">
+            <mat-option *ngFor="let selectcontrato of tipoContrato" [value]="selectcontrato.value">
+              {{selectcontrato.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="width-30 margin-right-15">
+          <input matTooltip="Estado Orden Atención" matInput placeholder="Estado *" formControlName="estadoAtencion">
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions class="card-footer">
+      </mat-card-actions>
+    </mat-card>
+
+    <br>
+    <br>
+
+    <div class="button-row">
+      <button type="submit" mat-raised-button color="primary">
+        <mat-icon>save</mat-icon>CREAR
+      </button>
+    </div>
+
+  </form>
+</div>

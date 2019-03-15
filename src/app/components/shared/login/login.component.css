@@ -1,0 +1,40 @@
+.login-box {
+    /* z-index: 0; */
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: -20px;
+    top: 0px;
+    background: gray;
+    min-height: 1000px;
+    min-width: 2048px;
+    background: linear-gradient(#1d9fb7,white);
+}
+
+.form-signin {
+    max-width: 360px;
+    padding: 15px;
+    margin: 40px auto;
+    background: rgba(54,127,140,0.8);
+    z-index: 500;
+    border-radius: 5%;
+    box-shadow: 8px 8px 10px rgba(54,127,140,.9);
+    color: white!important;
+}
+
+.footer-login {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background-image: url(../../../../assets/img/footer-login.PNG); 
+}
+    
+.text-center {
+    text-align: center;
+}
+.w-100 {
+    width: 100%;
+}
